@@ -1,0 +1,16 @@
+{
+  "name": "midgar",
+  "version": "0.0.1",
+  "description": "Midgar is a little framework JS",
+  "main": "./main.js",
+  "scripts": {
+    "test": "test"
+  },
+  "keywords": [
+    "mysql",
+    "logger"
+  ],
+  "author": "Grégory Piva",
+  "license": "MIT",
+  "readmeFilename": "README.md"
+}
