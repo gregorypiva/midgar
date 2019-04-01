@@ -6,6 +6,9 @@
   "scripts": {
     "test": "test"
   },
+  "dependencies": {
+    "mysql2": "^1.6.5"
+  },
   "keywords": [
     "mysql",
     "logger"
