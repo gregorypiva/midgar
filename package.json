@@ -4,6 +4,8 @@
   "description": "Midgar is a little framework JS",
   "main": "./main.js",
   "scripts": {
+    "dev": "webpack --watch",
+    "start": "webpack && node build/server",
     "test": "test"
   },
   "dependencies": {
@@ -15,5 +17,11 @@
   ],
   "author": "Grégory Piva",
   "license": "MIT",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "ts-loader": "^5.3.3",
+    "typescript": "^3.4.1",
+    "webpack": "^4.29.6",
+    "webpack-cli": "^3.3.0"
+  }
 }
