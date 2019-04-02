@@ -1,4 +1,6 @@
-import {logger} from 'midgar';
+import {logger, bdd} from 'midgar';
 
 
-console.log(logger);
+bdd.select('SELECT * FROM telephonie LIMIT 1').then((response) => {
+  console.log(response);
+});

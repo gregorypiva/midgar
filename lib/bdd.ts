@@ -1,9 +1,9 @@
 "use strict";
 
-const mysql = require('mysql2/promise')
-const config = require('../midgar.config.js')();
+const mysql = require('mysql2/promise');
+import {config} from 'midgar';
 
-const select = async (sql, args = []) => {
+const select = async (sql: string, args?: object): Promise<any> => {
   try {
     const request = await query(sql, args);
     return Promise.resolve(request);
@@ -12,10 +12,10 @@ const select = async (sql, args = []) => {
   }
 }
 
-const insert = async (table, args) => {
+const insert = async (table: string, args: object): Promise<any> => {
   try {
     args = await formatQuery(args);
-    const request = `INSERT INTO ${table} (${args.column}) VALUES (${args.values})`;
+    const request = `INSERT INTO ${table} (${(args as any).column}) VALUES (${(args as any).values})`;
     const response = await query(request);
     return Promise.resolve({request, response});
   } catch (e) {
@@ -23,11 +23,11 @@ const insert = async (table, args) => {
   }
 }
 
-const query = async (sql, args) => {
+const query = async (sql: string, args?: object): Promise<any> => {
   let connection = null;
   try {
     if (!config.bdd) return Promise.reject('Database config not defined');
-    const {host, user, database, socketPath} = config.bdd[config.mode];
+    const {host, user, database, socketPath} = (config as any).bdd[process.env.NODE_ENV];
     connection = await mysql.createConnection({host, user, database, socketPath});
     const results = await connection.execute(sql, args);
     connection.end();
@@ -38,16 +38,16 @@ const query = async (sql, args) => {
   }
 }
 
-const formatQuery = (args) => {
+const formatQuery = (args: object): Promise<object> => {
   if (typeof args !== 'object') return Promise.reject('L\'argument doit être un object');
-  else if (args.length < 1) return Promise.reject('La liste d\'arguments est vide');
+  else if ((args as any).length < 1) return Promise.reject('La liste d\'arguments est vide');
   return Promise.resolve({
     column: Object.keys(args),
     values: `"${Object.values(args).join('", "')}"`
   });
 }
 
-module.exports = {
+export const bdd = {
   select,
   insert
 }
