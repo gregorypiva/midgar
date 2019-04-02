@@ -22,5 +22,8 @@ module.exports = {
   output: {
     filename: 'server.js',
     path: path.resolve(__dirname, 'build')
+  },
+  node: {
+    __dirname: false
   }
 };
