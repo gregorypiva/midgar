@@ -1548,6 +1548,28 @@ eval("module.exports = function(module) {\n\tif (!module.webpackPolyfill) {\n\t\
 
 /***/ }),
 
+/***/ "./src/routes/index.ts":
+/*!*****************************!*\
+  !*** ./src/routes/index.ts ***!
+  \*****************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = function (app) {\r\n    app.use('/main', __webpack_require__(/*! ./main */ \"./src/routes/main/index.ts\"));\r\n};\r\n\n\n//# sourceURL=webpack:///./src/routes/index.ts?");
+
+/***/ }),
+
+/***/ "./src/routes/main/index.ts":
+/*!**********************************!*\
+  !*** ./src/routes/main/index.ts ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("var routes = __webpack_require__(/*! express */ \"./node_modules/express/index.js\").Router();\r\nroutes.get('/', function (req, res) {\r\n    res.status(200).json({ message: 'Connected!' });\r\n});\r\nmodule.exports = routes;\r\n// module.exports = (req: any, res: any) => {\r\n//     res.send('saluitttt');\r\n// }\r\n\n\n//# sourceURL=webpack:///./src/routes/main/index.ts?");
+
+/***/ }),
+
 /***/ "./src/server.ts":
 /*!***********************!*\
   !*** ./src/server.ts ***!
@@ -1556,7 +1578,7 @@ eval("module.exports = function(module) {\n\tif (!module.webpackPolyfill) {\n\t\
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
-eval("\r\nexports.__esModule = true;\r\nvar express = __webpack_require__(/*! express */ \"./node_modules/express/index.js\");\r\nvar bodyParser = __webpack_require__(/*! body-parser */ \"./node_modules/body-parser/index.js\");\r\nvar app = express();\r\napp.use('/public', express.static(__dirname + '/dist'));\r\napp.use(bodyParser.json());\r\napp.use(bodyParser.urlencoded({ extended: true }));\r\napp.get('/', function (request, response) {\r\n    response.sendFile(__dirname + \"/dist/index.html\");\r\n});\r\napp.listen(3001, function () {\r\n    console.log('server listen to 3001');\r\n});\r\n\n\n//# sourceURL=webpack:///./src/server.ts?");
+eval("\r\nexports.__esModule = true;\r\nvar express = __webpack_require__(/*! express */ \"./node_modules/express/index.js\");\r\nvar path = __webpack_require__(/*! path */ \"path\");\r\nvar http = __webpack_require__(/*! http */ \"http\");\r\nvar app = express();\r\nvar port = normalizePort(process.env.PORT || '3000');\r\napp.set('port', port);\r\napp.use(express.static(path.join(__dirname, 'public')));\r\napp.get('/', function (req, res) {\r\n    res.sendFile(__dirname + \"/dist/index.html\");\r\n});\r\n__webpack_require__(/*! ./routes */ \"./src/routes/index.ts\")(app);\r\n/**\r\n * Create HTTP server.\r\n */\r\nvar server = http.createServer(app);\r\n/**\r\n * Listen on provided port, on all network interfaces.\r\n */\r\nserver.listen(port);\r\nserver.on('error', onError);\r\nserver.on('listening', onListening);\r\n/**\r\n * Normalize a port into a number, string, or false.\r\n */\r\nfunction normalizePort(val) {\r\n    var port = parseInt(val, 10);\r\n    if (isNaN(port)) {\r\n        // named pipe\r\n        return val;\r\n    }\r\n    if (port >= 0) {\r\n        // port number\r\n        return port;\r\n    }\r\n    return false;\r\n}\r\n/**\r\n * Event listener for HTTP server \"error\" event.\r\n */\r\nfunction onError(error) {\r\n    if (error.syscall !== 'listen') {\r\n        throw error;\r\n    }\r\n    var bind = typeof port === 'string'\r\n        ? 'Pipe ' + port\r\n        : 'Port ' + port;\r\n    // handle specific listen errors with friendly messages\r\n    switch (error.code) {\r\n        case 'EACCES':\r\n            console.error(bind + ' requires elevated privileges');\r\n            process.exit(1);\r\n            break;\r\n        case 'EADDRINUSE':\r\n            console.error(bind + ' is already in use');\r\n            process.exit(1);\r\n            break;\r\n        default:\r\n            throw error;\r\n    }\r\n}\r\n/**\r\n * Event listener for HTTP server \"listening\" event.\r\n */\r\nfunction onListening() {\r\n    var addr = server.address();\r\n    var bind = typeof addr === 'string'\r\n        ? 'pipe ' + addr\r\n        : 'port ' + addr.port;\r\n    console.log('Listening on ' + bind);\r\n}\r\n\n\n//# sourceURL=webpack:///./src/server.ts?");
 
 /***/ }),
 
