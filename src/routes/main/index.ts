@@ -5,7 +5,3 @@ routes.get('/', (req: any, res: any) => {
 });
 
 module.exports = routes;
-
-// module.exports = (req: any, res: any) => {
-//     res.send('saluitttt');
-// }
