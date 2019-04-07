@@ -1,7 +1,7 @@
-const routes = require('express').Router();
+const main = require('express').Router();
 
-routes.get('/', (req: any, res: any) => {
+main.get('/', (req: any, res: any) => {
   res.status(200).json({ message: 'Connected!' });
 });
 
-module.exports = routes;
+module.exports = main;

@@ -4,7 +4,8 @@
     "noImplicitAny": true,
     "baseUrl": "./",
     "paths": {
-      "midgar": ["./lib/midgar"]
+      "midgar": ["./lib/midgar"],
+      "services/*": ["./src/services/*"]
     }
   }
 }

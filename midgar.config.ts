@@ -10,7 +10,7 @@ export const config = {
       host      : "localhost",
       user      : "root",
       password  : "",
-      database  : "larimar"
+      database  : "myqj"
     },
     production: {
       host      : "localhost",
@@ -20,4 +20,12 @@ export const config = {
       socketPath: "/var/run/mysqld/mysqld.sock"
     }
   },
+  jwt: {
+    secretKey: "123456789",
+    expiresIn: "1h"
+  },
+  publicUrl: [
+    '/api/login',
+    '/api/register'
+  ]
 }

@@ -16,7 +16,8 @@ module.exports = {
   resolve: {
     extensions: [ '.tsx', '.ts', '.js' ],
     alias: {
-      midgar: path.resolve(__dirname, 'lib/midgar')
+      midgar: path.resolve(__dirname, 'lib/midgar'),
+      services: path.resolve(__dirname, 'src/services')
     }
   },
   output: {

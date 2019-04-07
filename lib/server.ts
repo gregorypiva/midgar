@@ -18,15 +18,15 @@ app.get('/', function(req, res) {
   res.sendFile(__dirname + "/dist/index.html");
 })
 
-require('../src/routes')(app);
+
 
 /**
  * Create HTTP server.
  */
 
 const server = (app: any) => {
+  require('../src/routes')(app);
   const server = http.createServer(app);
-
   /**
    * Listen on provided port, on all network interfaces.
    */
