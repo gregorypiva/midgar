@@ -2,94 +2,80 @@ import * as express from 'express';
 import * as path from 'path';
 import * as http from 'http';
 const bodyParser = require('body-parser');
+const httpStatus = require("http-status");
 
-const app  = express();
+class Server {
+  app: any;
+  port: string;
 
-// Utilisation de bodyParser pour les params POST
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
-const port = normalizePort(process.env.PORT || '3000');
-app.set('port', port);
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/', function(req, res) {
-  res.sendFile(__dirname + "/dist/index.html");
-})
-
-
-
-/**
- * Create HTTP server.
- */
-
-const server = (app: any) => {
-  require('../src/routes')(app);
-  const server = http.createServer(app);
-  /**
-   * Listen on provided port, on all network interfaces.
-   */
-  server.listen(port);
-  server.on('error', onError);
-  server.on('listening', () => {
-    var addr = server.address();
-    var bind = typeof addr === 'string'
-      ? 'pipe ' + addr
-      : 'port ' + addr.port;
-    console.log('Listening on ' + bind);
-  });
-}
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val: any) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
+  constructor(port?: string) {
+    this.port = port || '3000';
+    this.app = express();
+    this.app.use(bodyParser.json());
+    this.app.use(bodyParser.urlencoded({ extended: true }));
+    this.app.set('port', this.port);
+    this.app.use(express.static(path.join(__dirname, 'public')));
+    this.app.get('/', (req: any, res: any) => {
+      res.sendFile(__dirname + "/dist/index.html");
+    });
   }
 
-  if (port >= 0) {
-    // port number
-    return port;
+  // /**
+  //  * Create HTTP server.
+  //  */
+  run() {
+    require('../src/routes')(this.app);
+    const server = http.createServer(this.app);
+    server.listen(this.port);
+    server.on('error', this.onError);
+    server.on('listening', () => {
+      var addr = server.address();
+      var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+      console.log('Listening on ' + bind);
+    });
   }
 
-  return false;
-}
-
-function onError(error: any) {
-  if (error.syscall !== 'listen') {
-    throw error;
+  appUse(middleware: any) {
+    this.app.use(middleware);
   }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
-
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
+  onError(error: any) {
+    if (error.syscall !== 'listen') {
       throw error;
+    }
+  
+    var bind = typeof this.port === 'string'
+      ? 'Pipe ' + this.port
+      : 'Port ' + this.port;
+  
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+      case 'EACCES':
+        console.error(bind + ' requires elevated privileges');
+        process.exit(1);
+        break;
+      case 'EADDRINUSE':
+        console.error(bind + ' is already in use');
+        process.exit(1);
+        break;
+      default:
+        throw error;
+    }
   }
-}
 
-function onListening () {
+  static createSuccessResponse = (res: any, body: any, status?: any, message?: any) => {
+    status = status || httpStatus.OK;
+    message = message || httpStatus["200_MESSAGE"];
+    return res.status(status).json(body);
+  }
 
+  static createErrorResponse = (res: any, status: any, message: any) => {
+    return res.status(status).json({status, message});
+  }
 }
 
 export {
-    app,
-    server
+    Server
 }
