@@ -1,5 +1,5 @@
 const httpStatus = require("http-status");
-import {util, token, config} from 'midgar';
+import {Server, token, config} from 'midgar';
 
 const authConfig = config.publicUrl;
 
@@ -14,13 +14,13 @@ const intercept = (req: any, res: any, next: any) => {
     return;
   }
   if (isAuthHeaderInvalid(req)) {
-    return util.createErrorResponse(res, httpStatus.UNAUTHORIZED, `Error in authorization format. Invalid authentication header. ${httpStatus["401_MESSAGE"]}`);
+    return Server.createErrorResponse(res, httpStatus.UNAUTHORIZED, `Error in authorization format. Invalid authentication header. ${httpStatus["401_MESSAGE"]}`);
   }
   try {
     token.verifyToken(req.headers.authorization.split(" ")[1]);
     next();
   } catch (err) {
-    return util.createErrorResponse(res, httpStatus.UNAUTHORIZED, `Invalid token. ${httpStatus["401_MESSAGE"]}`);
+    return Server.createErrorResponse(res, httpStatus.UNAUTHORIZED, `Invalid token. ${httpStatus["401_MESSAGE"]}`);
   }
   next();
 }

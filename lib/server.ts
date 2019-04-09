@@ -13,11 +13,9 @@ class Server {
     this.app = express();
     this.app.use(bodyParser.json());
     this.app.use(bodyParser.urlencoded({ extended: true }));
-    this.app.set('port', this.port);
     this.app.use(express.static(path.join(__dirname, 'public')));
-    this.app.get('/', (req: any, res: any) => {
-      res.sendFile(__dirname + "/dist/index.html");
-    });
+    this.app.set('port', this.port);
+    this.app.get('/', (req: any, res: any) => res.sendFile(__dirname + "/dist/index.html"));
   }
 
   // /**
@@ -76,6 +74,4 @@ class Server {
   }
 }
 
-export {
-    Server
-}
+export {Server}

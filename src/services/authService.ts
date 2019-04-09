@@ -1,9 +1,9 @@
-import {bdd, token} from 'midgar';
+import {Database, token} from 'midgar';
 
 // // Check if the user exists in database (matching username and password) which we'll say is good enough to be authenticated.
 const authenticate = async (username: string, password: string): Promise<string|boolean> => {
   try {
-    const response = await bdd.select(`
+    const response = await Database.select(`
     SELECT idt_id_patient FROM identifiants
       WHERE idt_connexion = ?
         AND idt_password = ?
@@ -21,19 +21,20 @@ const register = async (args: any): Promise<string|boolean> => {
   } = args;
 
   try {
-    const exist = await bdd.select(`
+    const exist = await Database.select(`
     SELECT idt_id_patient FROM identifiants
       WHERE idt_connexion = ?
     `, [username]);
 
     if (exist.length > 0) return Promise.reject(`registerFault( User "${username}" already exists. )`);
     const idt_token = token.createToken({username, password});
-    const value = await bdd.insert('identifiants',
-    {
-      idt_connexion: username,
-      idt_password: password,
-      idt_token
-    })
+    // const value = await Database.insert('identifiants',
+    // {
+    //   idt_connexion: username,
+    //   idt_password: password,
+    //   idt_token
+    // })
+    const value = await Database.insert('identifiants', [username, password, idt_token]);
     return Promise.resolve(idt_token);
   } catch (e) {
     Promise.reject(e);

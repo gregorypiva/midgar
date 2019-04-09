@@ -1,16 +1,16 @@
 export const config = {
   log: {
-    level: 0,
+    level: 2,
     type: "console",
     dir: "./logs/",
     name: "log-server"
   },
-  bdd: {
+  database: {
     development: {
       host      : "localhost",
       user      : "root",
       password  : "",
-      database  : "myqj"
+      database  : "larimar"
     },
     production: {
       host      : "localhost",
