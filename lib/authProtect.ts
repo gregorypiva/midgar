@@ -25,6 +25,4 @@ const intercept = (req: any, res: any, next: any) => {
   next();
 }
 
-export const auth = {
-  intercept
-}
+export const authProtect = {intercept}

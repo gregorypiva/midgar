@@ -22,7 +22,11 @@ class Server {
   //  * Create HTTP server.
   //  */
   run() {
-    require('../src/routes')(this.app);
+    try{
+      require('src/routes')(this.app);
+    } catch (e) {
+      if (e instanceof TypeError) console.log(e);
+    }
     const server = http.createServer(this.app);
     server.listen(this.port);
     server.on('error', this.onError);
