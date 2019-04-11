@@ -15,6 +15,8 @@ const verifyToken = (token: string) => {
   });
 }
 
+// @TODO CR: si c'est un JWT token, tu devrais avoir plus de fonction autour ex: decode token, ...
+
 export const token = {
   createToken,
   verifyToken

@@ -21,13 +21,15 @@ const authenticate = async (req: any, res: any, next: any) => {
 // Handles auth requests that don't contain the required data: username and password.
 function invalidLoginRequest(res: any) {
   const message = `Invalid login request. Must contain a valid username and password. ${httpStatus["400_MESSAGE"]}`;
+  // @TODO CR: do not let console.log, use real logger.
   console.log(`invalidLoginRequest( ${message} )`);
   return Server.createErrorResponse(res, httpStatus.BAD_REQUEST, message);
 }
 
 const register = async (req: any, res: any, next: any) => {
+  // @TODO CR: small optimization 
+  if (!req.body) return Server.createErrorResponse(res, httpStatus.BAD_REQUEST, `Invalid register request. Must contain a valid firstName, lastName, username and password. ${httpStatus["400_MESSAGE"]}`);
   const args = req.body;
-  if (!args) return Server.createErrorResponse(res, httpStatus.BAD_REQUEST, `Invalid register request. Must contain a valid firstName, lastName, username and password. ${httpStatus["400_MESSAGE"]}`);
   try {
     const token = await authService.register(args);
     //if (!token) return util.createErrorResponse(res, httpStatus.BAD_REQUEST, `Cannot register user. ${httpStatus["400_MESSAGE"]}`);
