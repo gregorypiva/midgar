@@ -17,6 +17,7 @@ const intercept = (req: any, res: any, next: any) => {
     return Server.createErrorResponse(res, httpStatus.UNAUTHORIZED, `Error in authorization format. Invalid authentication header. ${httpStatus["401_MESSAGE"]}`);
   }
   try {
+    // @TODO CR: split will be in error if headers contains 1 or no element. #Out of memory
     token.verifyToken(req.headers.authorization.split(" ")[1]);
     next();
   } catch (err) {
