@@ -1,7 +1,7 @@
 "use strict";
 
 const mysql = require('mysql2/promise');
-import {config, logger} from 'midgar';
+import {config} from 'midgar';
 
 class Database {
 
@@ -17,7 +17,7 @@ class Database {
   static async insert (sql: string, args: Array<any>): Promise<boolean> {
     try {
       const response = await this.query(sql, args);
-      return Promise.resolve(response && response[0].affectedRows > 0 ? true : false);
+      return Promise.resolve(response && response[0].affectedRows > 0 ? response[0] : false);
     } catch (e) {
       return Promise.reject('at insert in database.js: ' + e);
     }
@@ -47,7 +47,6 @@ class Database {
     try {
       connection = await mysql.createConnection({host, user, database, socketPath});
       const results = await connection.query(sql, args);
-      logger.info('at query - request : ' + sql + '\r\n Results : ' + JSON.stringify(results[0]), 'database.js');
       if (connection) connection.end();
       return Promise.resolve(results);
     } catch (e) {
